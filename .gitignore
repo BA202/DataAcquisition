@@ -135,4 +135,4 @@ dmypy.json
 .csv
 .json
 
-./ApiKey.txt
+ApiKey.txt
