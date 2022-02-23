@@ -134,3 +134,5 @@ dmypy.json
 #Data files
 .csv
 .json
+
+./ApiKey.txt
