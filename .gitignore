@@ -132,9 +132,9 @@ dmypy.json
 .DS_Store
 
 #Data files
-.csv
-.json
-.tsv
+*.csv
+*.json
+*.tsv
 
 .idea
 
