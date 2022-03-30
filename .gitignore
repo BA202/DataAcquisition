@@ -136,4 +136,6 @@ dmypy.json
 .json
 .tsv
 
+.idea
+
 ApiKey.txt

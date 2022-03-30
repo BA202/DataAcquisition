@@ -122,9 +122,9 @@ os.mkdir(path)
 
 with open("ListOfTexts_AutoSplit_Clean.tsv", 'r') as ListOfTexts:
     rawFile = ListOfTexts.read()
-    currentReview = 1
-    currentSentence = 1
-    for line in rawFile.split('\n')[0:100]:
+    currentReview = 50
+    currentSentence = 394
+    for line in rawFile.split('\n')[48:100]:
         with open(path+ "/RawReviews.tsv", 'a')as RawReviews:
             RawReviews.write(line.replace('\t','')+"\tTraining\tOnline\tEnglish"+"\n")
         for text in line.split('\t'):
