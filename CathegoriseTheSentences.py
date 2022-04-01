@@ -1,7 +1,7 @@
 import os
 import datetime
 
-clearConsole = lambda: os.system('cls' if os.name in ('nt', 'dos') else 'clear')
+clearConsole = lambda: os.system("cls" if os.name in ("nt", "dos") else "clear")
 
 
 def getScore(currentScores):
@@ -22,7 +22,8 @@ def getScore(currentScores):
 
             return currentScores[number]
 
-def getTags(text ,currentTags):
+
+def getTags(text, currentTags):
     listOfInputTags = []
 
     while True:
@@ -47,9 +48,9 @@ def getTags(text ,currentTags):
                     print("    !\u001b[31mTag already added\u001b[0m")
                 else:
                     listOfInputTags.append(currentTags[tag])
-                print("[" ,end="")
+                print("[", end="")
                 for tag in listOfInputTags:
-                    print(f"\u001b[35m{tag}\u001b[0m, " ,end="")
+                    print(f"\u001b[35m{tag}\u001b[0m, ", end="")
                 print("]")
                 print(f"\u001b[1m{text}\u001b[0m")
 
@@ -58,6 +59,7 @@ def getTags(text ,currentTags):
                     print("     !\u001b[31mUnable to parse input\u001b[0m")
                 else:
                     print("     !\u001b[31mInt not in list\u001b[0m")
+
 
 def getContentType(currentContentType):
     res = input()
@@ -78,11 +80,7 @@ def getContentType(currentContentType):
             return currentContentType[number]
 
 
-currentScores ={
-    -1: "Negative",
-    0: "Neutral",
-    1: "Positiv"
-}
+currentScores = {-1: "Negative", 0: "Neutral", 1: "Positiv"}
 
 currentTags = {
     11: "PublicTransport",
@@ -108,33 +106,30 @@ currentTags = {
     73: "CheckOutTime",
     74: "HowTheHotelWasFound",
     75: "Major Issue",
-    80: "Unknown"
+    80: "Unknown",
 }
 
-currentContentType = {
-    1: "Review",
-    2: "TravelsAdvice",
-    3: "Story"
-}
+currentContentType = {1: "Review", 2: "TravelsAdvice", 3: "Story"}
 
-path = "ClassifiedFiles_" +str(datetime.datetime.now())
+path = "ClassifiedFiles_" + str(datetime.datetime.now())
 os.mkdir(path)
 
-with open("ListOfTexts_AutoSplit_Clean.tsv", 'r') as ListOfTexts:
+with open("ListOfTexts_AutoSplit_Clean.tsv", "r") as ListOfTexts:
     rawFile = ListOfTexts.read()
     currentReview = 50
     currentSentence = 394
-    for line in rawFile.split('\n')[48:100]:
-        with open(path+ "/RawReviews.tsv", 'a')as RawReviews:
-            RawReviews.write(line.replace('\t','')+"\tTraining\tOnline\tEnglish"+"\n")
-        for text in line.split('\t'):
-            with open(path + "/ReviewSentences.tsv", 'a')as ReviewSentences:
+    for line in rawFile.split("\n")[48:100]:
+        with open(path + "/RawReviews.tsv", "a") as RawReviews:
+            RawReviews.write(
+                line.replace("\t", "") + "\tTraining\tOnline\tEnglish" + "\n"
+            )
+        for text in line.split("\t"):
+            with open(path + "/ReviewSentences.tsv", "a") as ReviewSentences:
                 ReviewSentences.write(text + f"\t{currentReview}" + "\n")
             print(f"{currentReview:3}.{currentSentence:<4}\u001b[1m{text}\u001b[0m")
             print("\u001b[31;1mScore:\u001b[0m {", end="")
             for key in currentScores:
-                print(f"\u001b[34;1m {key}\u001b[0m:{currentScores[key]},",
-                      end="")
+                print(f"\u001b[34;1m {key}\u001b[0m:{currentScores[key]},", end="")
             print("}")
             score = getScore(currentScores)
 
@@ -142,8 +137,7 @@ with open("ListOfTexts_AutoSplit_Clean.tsv", 'r') as ListOfTexts:
             for key in currentTags:
                 if ((key - 1) % 10) == 0 or key % 10 == 0:
                     print()
-                print(f"\u001b[34;1m {key:3}\u001b[0m:{currentTags[key]:20},",
-                      end="")
+                print(f"\u001b[34;1m {key:3}\u001b[0m:{currentTags[key]:20},", end="")
             print("}")
             tags = getTags(text, currentTags)
 
@@ -151,15 +145,20 @@ with open("ListOfTexts_AutoSplit_Clean.tsv", 'r') as ListOfTexts:
             for key in currentContentType:
                 if ((key - 1) % 10) == 0 or key % 10 == 0:
                     print()
-                print(f"\u001b[34;1m {key:3}\u001b[0m:{currentContentType[key]:20},",
-                      end="")
+                print(
+                    f"\u001b[34;1m {key:3}\u001b[0m:{currentContentType[key]:20},",
+                    end="",
+                )
             print("}")
             contentType = getContentType(currentContentType)
 
-            print("Text Classification: ",score,tags,contentType,sep=" | ")
-            with open(path + "/ClassificationResult.tsv", 'a')as ClassificationResult:
+            print("Text Classification: ", score, tags, contentType, sep=" | ")
+            with open(path + "/ClassificationResult.tsv", "a") as ClassificationResult:
                 for tag in tags:
-                    ClassificationResult.write(f"{score}\t1\t{tag}\t1\t{contentType}\t1\t{currentSentence}" + "\n")
+                    ClassificationResult.write(
+                        f"{score}\t1\t{tag}\t1\t{contentType}\t1\t{currentSentence}"
+                        + "\n"
+                    )
             clearConsole()
             currentSentence += 1
         currentReview += 1
